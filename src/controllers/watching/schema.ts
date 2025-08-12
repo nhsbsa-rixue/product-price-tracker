@@ -1,6 +1,6 @@
 import { body } from "express-validator";
 
-const Schema = [
+const PostSchema = [
     body("productId")
         .trim()
         .notEmpty()
@@ -17,18 +17,18 @@ const Schema = [
         .optional()
         .trim()
         .isBoolean()
-        .withMessage("alertBy24Hours must be a boolean."),
+        .withMessage("fullDayAlert must be a boolean."),
     body("alertMorning")
         .optional()
         .trim()
         .isBoolean()
-        .withMessage("alertMorning must be a boolean."),
+        .withMessage("morningAlert must be a boolean."),
     body("alertByNight")
         .optional()
         .trim()
         .isBoolean()
-        .withMessage("alertByNight must be a boolean."),
+        .withMessage("nightAlert must be a boolean."),
 
 ];
 
-export { Schema };
+export { PostSchema };

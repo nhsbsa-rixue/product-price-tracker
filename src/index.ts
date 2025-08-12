@@ -1,21 +1,26 @@
 import express from "express";
-import serverlessExpress from "@codegenie/serverless-express";
-import setupApp from "./setup";
+import setup from "./setup";
+import logger from "./logger";
+import config from "./config";
+import { setupCronJobs } from "./cronJobs";
 
-// lambda instance to reuse heavy sync tasks
-let serverlessExpressInstance;
 
-async function setup(event, context) {
-  const app = express();
-  setupApp(app);
+const { PORT, APP_NAME, CONTEXT_PATH } = config;
+const app = express();
+setup(app);
+setupCronJobs();
 
-  serverlessExpressInstance = serverlessExpress({ app });
-  return serverlessExpressInstance(event, context);
-}
+const server = app.listen(PORT, () => {
+  logger.info(
+    `${APP_NAME} listening at http://localhost:${PORT}${CONTEXT_PATH}`,
+  );
+});
 
-export function handler(event, context) {
-  if (serverlessExpressInstance)
-    return serverlessExpressInstance(event, context);
+process.on("SIGTERM", () => {
+  logger.debug("SIGTERM signal received: closing HTTP server");
+  server.close(() => {
+    logger.debug("HTTP server closed");
+  });
+});
 
-  return setup(event, context);
-}
+export default server;

@@ -1,7 +1,7 @@
 {
-  "name": "employee-skills-tracker",
+  "name": "product-price-tracker",
   "version": "1.0.0",
-  "description": "A personal assignment to create a RESTful web service to track skills within an organisation",
+  "description": "A personal assignment to create a RESTful web service to users to track product prices",
   "main": "dist/src/index.js",
   "scripts": {
     "preinstall": "node -e \"process.platform === 'darwin' && require('child_process').spawn('sh', ['./npm_scripts/install_pre_commit.sh'], { stdio: 'inherit'})\" && node -e \"process.platform === 'win32' && require('child_process').spawn('cmd.exe', ['/c','call npm_scripts/install_pre_commit.bat'], { stdio: 'inherit'})\"",
@@ -14,17 +14,12 @@
     "audit": "npm audit --omit=dev",
     "eslint": "eslint .",
     "auto-fix": "eslint --fix .",
-    "dev": "ts-node-dev --respawn --transpile-only local-dev/app.ts",
-    "tflocal-init": "tflocal -chdir=localstack init",
-    "tflocal-apply": "cp package.json dist && cp package-lock.json dist && npm install --prefix dist --ignore-scripts && tflocal -chdir=localstack apply --auto-approve",
-    "tflocal-destroy": "tflocal -chdir=localstack destroy --auto-approve"
+    "dev": "ts-node-dev --respawn --transpile-only src/index.ts"
   },
   "author": "Riwang Xue",
   "license": "Apache-2.0",
   "dependencies": {
-    "@aws-sdk/client-dynamodb": "^3.588.0",
-    "@aws-sdk/lib-dynamodb": "^3.588.0",
-    "@codegenie/serverless-express": "^4.14.0",
+    "csv-parser": "^3.2.0",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "express-validator": "^7.1.0",
@@ -41,6 +36,7 @@
     "@types/aws-lambda": "^8.10.140",
     "@types/express": "^4.17.21",
     "@types/jest": "^29.5.12",
+    "@types/uuid": "^10.0.0",
     "cross-env": "^7.0.3",
     "esbuild": "^0.21.4",
     "eslint": "^8.57.0",

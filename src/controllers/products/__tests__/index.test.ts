@@ -3,9 +3,11 @@ import { productController } from '../index';
 
 let mockRequest;
 let mockResponse;
+const mockUuid = "123e4567-e89b-12d3-a456-426614174000";
 
 beforeEach(() => {
   mockRequest = {
+    products: [{ id: mockUuid, name: 'productName', price: 100 }],
     params: {},
     body: {},
   };
@@ -27,7 +29,7 @@ describe('product controllers', () => {
 
   test('should return a single product', async () => {
     // given
-    mockRequest.params.id = '1';
+    mockRequest.params.id = mockUuid;
 
     // when
     await productController.Get(mockRequest, mockResponse);
@@ -54,7 +56,7 @@ describe('product controllers', () => {
   });
 
 
-  test('should update an existing employee', async () => {
+  test('should update an existing product', async () => {
     // given
     mockRequest.body = {
       name: 'productName',
@@ -71,7 +73,7 @@ describe('product controllers', () => {
 
   test('should delete a single product', async () => {
     // given
-    mockRequest.params.id = '1';
+    mockRequest.params.id = mockUuid;
 
     // when
     await productController.Delete(mockRequest, mockResponse);

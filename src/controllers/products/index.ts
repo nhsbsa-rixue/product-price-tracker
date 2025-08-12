@@ -1,43 +1,59 @@
-import { Schema } from "./schema";
+import * as schemas from "./schema";
 import { StatusCodes } from 'http-status-codes';
 import { CONSTANTS } from "../../constants";
+import { v4 as uuid } from "uuid";
+
 
 const Get: Controller = async (req, res) => {
-  // TODO add logic to get item by id
-  return res.status(StatusCodes.OK).json({});
+  const product = req.products.find((item) => item.id === req.params.id);
+  if (!product) {
+    return res.status(StatusCodes.NOT_FOUND).json({ message: "Product not found" });
+  }
+
+  return res.status(StatusCodes.OK).json(product);
 };
 
 const List: Controller = async (req, res) => {
-  // TODO add logic to list items in the table
-  return res.status(StatusCodes.OK).json({});
+  return res.status(StatusCodes.OK).json(req.products);
 };
 
 const Post: Controller = async (req, res) => {
-  // TODO add logic to create an item
-  return res.status(StatusCodes.CREATED).json({});
+  const { name, price } = req.body;
+  const newProduct = { id: uuid(), name, price };
+  req.products.push(newProduct);
+  return res.status(StatusCodes.CREATED).json(newProduct);
 };
 
 const Put: Controller = async (req, res) => {
-  // TODO add logic to update an item
-  return res.status(StatusCodes.OK).json({});
+  const { id } = req.params;
+  const { name, price } = req.body;
+
+  const productIndex = req.products.findIndex((item) => item.id === id);
+  if (productIndex === -1) {
+    return res.status(StatusCodes.NOT_FOUND).json({ message: "Product not found" });
+  }
+
+  req.products[productIndex] = { ...req.products[productIndex], name, price };
+
+  return res.status(StatusCodes.OK).json(req.products[productIndex]);
 };
 
 const Delete: Controller = async (req, res) => {
-  // TODO add logic to delete an item
-  return res.status(StatusCodes.OK).json({});
-};
-
-const Watch: Controller = async (req, res) => {
-  // TODO add logic to watch an item
-  return res.status(StatusCodes.OK).json({});
+  const { id } = req.params;
+  const productIndex = req.products.findIndex((item) => item.id === id);
+  if (productIndex === -1) {
+    return res.status(StatusCodes.NOT_FOUND).json({ message: "Product not found" });
+  }
+  req.products.splice(productIndex, 1);
+  return res.status(StatusCodes.NO_CONTENT).json({});
 };
 
 export const productController: RestControllers = {
   Path: CONSTANTS.PRODUCT_CONTROLLER_BASE_PATH,
-  Schema,
   Get,
   Post,
   Put,
   List,
-  Delete
+  Delete,
+  ...schemas
 };

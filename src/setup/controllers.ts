@@ -7,11 +7,11 @@ const router = express.Router();
 
 const setupController = (app: App) => {
   Object.values(controllers).forEach(controller => {
-    const { Path, Get, List, Post, Put, Delete, Schema = [], PutSchema, PostSchema } =
+    const { Path, Get, List, Post, Put, Delete, Schema = [], GetSchema, DeleteSchema, PutSchema, PostSchema } =
       controller;
 
     if (Get) {
-      router.get(Path + CONSTANTS.PATH_WITH_ID, Get);
+      router.get(Path + CONSTANTS.PATH_WITH_ID, GetSchema || [], Get);
     }
 
     if (List) {
@@ -27,7 +27,7 @@ const setupController = (app: App) => {
     }
 
     if (Delete) {
-      router.delete(Path, Delete);
+      router.delete(Path, DeleteSchema || Schema, Delete);
     }
   });
 

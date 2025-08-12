@@ -1,6 +1,6 @@
-# Contributing to employee-skills-tracker
+# Contributing to product-price-tracker
 
-employee-skills-tracker is released under the [Apache 2 license](LICENCE.txt). If you would like to contribute
+product-price-tracker is released under the [Apache 2 license](LICENCE.txt). If you would like to contribute
 something, or simply want to hack on the code this document should help you get started.
 
 ## Code of Conduct
@@ -56,7 +56,7 @@ characters), depending on where you clone the repository. If you get `Filename t
 errors, set the `core.longPaths=true` git option:
 
 ```bash
-git clone -c core.longPaths=true [{project URL}](https://github.com/nhsbsa-rixue/assignment-employee-skills-tracker.git)
+git clone -c core.longPaths=true [{project URL}](https://github.com/nhsbsa-rixue/product-price-tracker)
 ```
 
 ## Comments on this policy

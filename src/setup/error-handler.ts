@@ -1,6 +1,6 @@
 import logger from "../logger";
 import { StatusCodes, ReasonPhrases } from 'http-status-codes';
-import { CONSTANTS } from "../constants"; 
+import { CONSTANTS } from "../constants";
 
 const errorHandler = (err, req, res, next) => {
   logger.error(err, err.message);

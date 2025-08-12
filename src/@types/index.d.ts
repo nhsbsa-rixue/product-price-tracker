@@ -6,7 +6,9 @@ declare global {
   interface App extends Express { }
 
   interface Req extends Request {
-    dbClient: any;
+    users: any;
+    products: any;
+    watching: any;
   }
 
   interface Controller extends RequestHandler {
@@ -16,12 +18,14 @@ declare global {
 
   interface RestControllers {
     Path: string;
-    Get: Controller;
-    List: Controller;
-    Post: Controller;
-    Put: Controller;
-    Delete: Controller;
+    Get?: Controller;
+    List?: Controller;
+    Post?: Controller;
+    Put?: Controller;
+    Delete?: Controller;
     Schema?: ValidationChain[];
+    GetSchema?: ValidationChain[];
+    DeleteSchema?: ValidationChain[];
     PutSchema?: ValidationChain[];
     PostSchema?: ValidationChain[];
   }
