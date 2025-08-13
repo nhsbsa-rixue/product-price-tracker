@@ -8,25 +8,21 @@ A personal assignment to create a RESTful web service that allows users to enter
 
 ### Building the application
 
-1. Install the dependencies:
+Install the dependencies:
 
-```
+```sh
   npm install
 ```
 
-2. Build the app
+Build the app
 
-```
+```sh
   npm run build
 ```
 
 ### Running the application
 
-There are two ways to run this applications locally
-
-1. Run as a native express application
-
-```
+```sh
 npm run dev
 ```
 
@@ -36,7 +32,6 @@ Then the application can be invoked though those RESTful endpoints: product, use
 
 * POST `http://localhost:8000/watching`  
 
-Request Body
 The request body must be in JSON format and contain the following parameters:
 
 * **productId** (string): The unique identifier for the product the user wants to watch.
@@ -50,7 +45,7 @@ The request body must be in JSON format and contain the following parameters:
 
 Example Request Body
 
-```
+```json
 {
   "productId": "746a83c7-9cfd-440a-90c8-f57438",
   "userEmail": "example1@email.com",
@@ -59,11 +54,11 @@ Example Request Body
   "nightAlert": true,
   "morningAlert": true
 }
-
-Example Response
-
 ```
 
+Example Response:
+
+```json
 {
   "productId": "746a83c7-9cfd-440a-90c8-f57438",
   "userEmail": "<example1@email.com>",
@@ -75,7 +70,6 @@ Example Response
 
 ```
 
-
 ![1755027241418](image/README/1755027241418.png)
 
 #### Administrative operations
@@ -86,7 +80,7 @@ This endpoint is designed to mock the actual alert services which is trigger by 
 So we able to test the alert services without waiting the timer started.
 It accept the Request Body
 
-```
+```json
 
 {
   "alertType": "fullDay"
@@ -101,7 +95,7 @@ pretend to send alerts to users:
 
 Response:
 
-```
+```json
 
 {
     "message": "Alerts sent successfully"
