@@ -34,26 +34,26 @@ Then the application can be invoked though those RESTful endpoints: product, use
 
 #### Public facing endpoint
 
-* `http://localhost:8000/watching`
-  Method: POST
+* POST `http://localhost:8000/watching`  
 
 Request Body
 The request body must be in JSON format and contain the following parameters:
-**productId** (string): The unique identifier for the product the user wants to watch.
-**userEmail** (string): The email address of the user who is setting the alert.
-**desiredPrice** (number): The price at which the user wants to be notified.
-**fullDayAlert** (boolean): Indicates if the user wants to receive alerts throughout the day.
-**nightAlert** (boolean): Indicates if the user wants to receive alerts during the night.
-**morningAlert** (boolean): Indicates if the user wants to receive alerts in the morning.
+
+* **productId** (string): The unique identifier for the product the user wants to watch.
+* **userEmail** (string): The email address of the user who is setting the alert.
+* **desiredPrice** (number): The price at which the user wants to be notified.
+* **fullDayAlert** (boolean): Indicates if the user wants to receive alerts throughout the day.
+* **nightAlert** (boolean): Indicates if the user wants to receive alerts during the night.
+* **morningAlert** (boolean): Indicates if the user wants to receive alerts in the morning.
 
 ---
 
 Example Request Body
 
-JSON```
+```
 {
   "productId": "746a83c7-9cfd-440a-90c8-f57438",
-  "userEmail": "<example1@email.com>",
+  "userEmail": "example1@email.com",
   "desiredPrice": 100,
   "fullDayAlert": true,
   "nightAlert": true,
@@ -62,7 +62,8 @@ JSON```
 
 Example Response
 
-JSON```
+```
+
 {
   "productId": "746a83c7-9cfd-440a-90c8-f57438",
   "userEmail": "<example1@email.com>",
@@ -85,7 +86,8 @@ This endpoint is designed to mock the actual alert services which is trigger by 
 So we able to test the alert services without waiting the timer started.
 It accept the Request Body
 
-JSON```
+```
+
 {
   "alertType": "fullDay"
 }
@@ -107,8 +109,8 @@ Response:
 
 ```
 
-* `http://localhost:8000/products`
-* `http://localhost:8000/users`
+* `http://localhost:8000/products` Methods: Get, Put, Delete, Post
+* `http://localhost:8000/users` Methods: Get
 
 Those 2 API endpoints are for administrative purpose to create products and users.
 
@@ -121,7 +123,3 @@ See our [contributing guide](CONTRIBUTING.md) for guidance on how to contribute.
 ## License
 
 Released under the [Apache 2 license](LICENCE.txt).
-
-```
-
-```
