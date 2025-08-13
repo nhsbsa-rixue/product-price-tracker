@@ -11,6 +11,15 @@ declare global {
     watching: any;
   }
 
+  interface EmailTemplate {
+    to: string;
+    subject: string;
+    body: string;
+  }
+
+  type AlertType = "day" | "night";
+
+
   interface Controller extends RequestHandler {
     (req: Req, res: any): any;
     (req: Req, res: any, next: any): any;

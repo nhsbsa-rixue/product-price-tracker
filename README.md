@@ -52,7 +52,7 @@ Example Request Body
 
 JSON```
 {
-  "productId": "746a83c7-9cfd-440a-90c8-f57438...",
+  "productId": "746a83c7-9cfd-440a-90c8-f57438",
   "userEmail": "<example1@email.com>",
   "desiredPrice": 100,
   "fullDayAlert": true,
@@ -64,9 +64,9 @@ Example Response
 
 JSON```
 {
-  "productId": "",
-  "userEmail": "",
-  "desiredPrice": 0,
+  "productId": "746a83c7-9cfd-440a-90c8-f57438",
+  "userEmail": "<example1@email.com>",
+  "desiredPrice": 100,
   "fullDayAlert": true,
   "morningAlert": true,
   "nightAlert": true

@@ -2,15 +2,6 @@ import cron from "node-cron";
 import logger from "../logger";
 import { readCsvToArray } from "../dbRepos";
 
-interface EmailTemplate {
-    to: string;
-    subject: string;
-    body: string;
-}
-
-type AlertType = "day" | "night";
-
-
 const mockEmailService = (emailsToSend: Array<EmailTemplate>) => {
     emailsToSend.forEach(email => {
         logger.info(`Sending email to: ${email.to}`);
@@ -19,7 +10,7 @@ const mockEmailService = (emailsToSend: Array<EmailTemplate>) => {
     });
 }
 
-async function sendAlert(alertType: AlertType) {
+const sendAlert = async (alertType: AlertType) => {
 
     logger.info(`${alertType === "day" ? "Morning" : "Night"} alert`);
     const products = await readCsvToArray("src/dbRepos/products.csv");
