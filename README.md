@@ -108,6 +108,20 @@ Response:
 
 Those 2 API endpoints are for administrative purpose to create products and users.
 
+### Scheduled Cron Jobs
+
+This application uses two scheduled cron jobs to automatically send price drop alerts to users based on their alert preferences:
+
+#### Morning Alert
+
+Schedule: Every day at 8:00 AM
+Function: Triggers the sendAlert("day") function, which checks all watching records where either fullDayAlert or dayAlert is enabled. If a product’s price drops below the user’s desired price, an alert email is sent.
+
+#### Night Alert
+
+Schedule: Every day at midnight (00:00)
+Function: Triggers the sendAlert("night") function, which checks all watching records where either fullDayAlert or nightAlert is enabled. If a product’s price drops below the user’s desired price, an alert email is sent.
+
 ## Contributions
 
 We operate a [code of conduct](CODE_OF_CONDUCT.md) for all contributors.
