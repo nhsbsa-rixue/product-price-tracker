@@ -3,7 +3,7 @@ import { CONSTANTS } from "../../constants";
 import { sendAlert } from "../../cronJobs"
 import { PostSchema } from "./schema"
 
-const Post: Controller = async (req, res) => {
+export const Post: Controller = async (req, res) => {
   const { alertType } = req.body;
 
   if (alertType == "day") {
@@ -22,8 +22,6 @@ const Post: Controller = async (req, res) => {
 };
 
 
-export const mockAlertController: RestControllers = {
-  Path: CONSTANTS.MOCK_ALERT_PATH,
-  Post,
-  PostSchema
+export default {
+  basePath: CONSTANTS.MOCK_ALERT_PATH,
 };

@@ -2,7 +2,7 @@ import { StatusCodes } from 'http-status-codes';
 import { CONSTANTS } from "../../constants";
 
 
-const Post: Controller = async (req, res) => {
+export const Post: Controller = async (req, res) => {
     const { productId, userEmail, desiredPrice, fullDayAlert, morningAlert, nightAlert } = req.body;
 
     const product = req.products.find((p) => p.id === productId);
@@ -33,7 +33,7 @@ const Post: Controller = async (req, res) => {
 };
 
 
-export const watchingController: RestControllers = {
-    Path: CONSTANTS.WATCH_CONTROLLER_BASE_PATH,
+export default {
+    basePath: CONSTANTS.WATCH_CONTROLLER_BASE_PATH,
     Post,
 };
