@@ -47,4 +47,4 @@ export const Delete: Controller = async (req, res) => {
     req.products.splice(productIndex, 1);
     return res.status(StatusCodes.NO_CONTENT).json({});
 };
-export default { basePath: CONSTANTS.PRODUCT_CONTROLLER_BASE_PATH };
+export default { path: CONSTANTS.PRODUCT_CONTROLLER_BASE_PATH };

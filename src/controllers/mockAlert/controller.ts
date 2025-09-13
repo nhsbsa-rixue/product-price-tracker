@@ -23,5 +23,5 @@ export const Post: Controller = async (req, res) => {
 
 
 export default {
-  basePath: CONSTANTS.MOCK_ALERT_PATH,
+  path: CONSTANTS.MOCK_ALERT_PATH,
 };

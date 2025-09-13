@@ -8,5 +8,5 @@ export const List: Controller = async (req, res) => {
 
 
 export default {
-  basePath: CONSTANTS.USER_CONTROLLER_BASE_PATH,
+  path: CONSTANTS.USER_CONTROLLER_BASE_PATH,
 };

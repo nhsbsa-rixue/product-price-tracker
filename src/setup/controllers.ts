@@ -2,10 +2,15 @@ import express from "express";
 import { validator } from "../validator";
 import fs from "fs";
 import path from "path";
+import logger from "../logger";
 
 
 const router = express.Router();
 
+/** 
+ * Derives a base path from the file path.
+ * E.g., src/controllers/users/userController.ts -> /users
+ */
 const derivePath = (filePath: string) => {
   const parts = filePath.split(path.sep);
   const idx = parts.lastIndexOf("controllers");
@@ -13,45 +18,48 @@ const derivePath = (filePath: string) => {
   return "/" + segments.join("/"); // simplistic; extend for dynamic params
 };
 
-const walk = (dir: string, router: express.Router) => {
-  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
-    const full = path.join(dir, entry.name);
-    if (entry.isDirectory()) walk(full, router);
+const scanningControllers = (baseFolder: string, router: express.Router) => {
+  for (const entry of fs.readdirSync(baseFolder, { withFileTypes: true })) {
+    const subControllerFolder = path.join(baseFolder, entry.name);
+
+    if (entry.isDirectory()) {
+      scanningControllers(subControllerFolder, router);
+    } 
+
     else if (entry.name.endsWith("controller.ts") || entry.name.endsWith("controller.js")) {
 
-      console.log(`Loading controller from file: ${full}`);
-      const mod = require(full);
+      const mod = require(subControllerFolder);
       const meta = mod.default || {};
-      const basePath = meta.basePath || derivePath(full);
+      const path = meta.path || derivePath(subControllerFolder);
 
 
       if (typeof mod["Get"] === "function") {
         const schema = mod["GetSchema"] || [];
-        router.get(`${basePath}/:id`, schema, validator, mod["Get"]);
+        router.get(`${path}/:id`, schema, validator, mod["Get"]);
       }
 
       if (typeof mod["List"] === "function") {
-        router.get(basePath, mod["List"]);
+        router.get(path, mod["List"]);
       }
 
       if (typeof mod["Post"] === "function") {
         const schema = mod["PostSchema"] || [];
-        router.post(basePath, schema, validator, mod["Post"]);
+        router.post(path, schema, validator, mod["Post"]);
       }
 
       if (typeof mod["Put"] === "function") {
         const schema = mod["PutSchema"] || [];
-        router.put(`${basePath}/:id`, schema, validator, mod["Put"]);
+        router.put(`${path}/:id`, schema, validator, mod["Put"]);
       }
 
       if (typeof mod["Delete"] === "function") {
         const schema = mod["DeleteSchema"] || [];
-        router.delete(`${basePath}/:id`, schema, validator, mod["Delete"]);
+        router.delete(`${path}/:id`, schema, validator, mod["Delete"]);
       }
 
       if (typeof mod["Patch"] === "function") {
         const schema = mod["PatchSchema"] || [];
-        router.patch(`${basePath}/:id`, schema, validator, mod["Patch"]);
+        router.patch(`${path}/:id`, schema, validator, mod["Patch"]);
       }
 
 
@@ -61,14 +69,18 @@ const walk = (dir: string, router: express.Router) => {
 
 export function setupAutoRoutes(app: express.Application) {
 
-  const baseDir = path.join(__dirname, "..", "controllers");
+  const controllerBaseFolder = path.join(__dirname, "..", "controllers");
 
-
-
-  walk(baseDir, router);
+  scanningControllers(controllerBaseFolder, router);
 
   app.use(router);
 
+  router.stack.forEach((layer: any) => {
+  if (layer.route) {
+    const methods = Object.keys(layer.route.methods).join(", ").toUpperCase();
+    logger.debug(`${methods} ${layer.route.path}`);
+  }
+});
 
 
 }

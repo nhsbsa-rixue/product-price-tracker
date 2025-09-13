@@ -34,6 +34,5 @@ export const Post: Controller = async (req, res) => {
 
 
 export default {
-    basePath: CONSTANTS.WATCH_CONTROLLER_BASE_PATH,
-    Post,
+    path: CONSTANTS.WATCH_CONTROLLER_BASE_PATH,
 };
