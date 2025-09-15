@@ -1,8 +1,8 @@
 import * as esbuild from "esbuild";
 
 // Configuration
-const entryFile = "src/index.ts"; // Replace with your entry file
-const outfile = "dist/src/index.js"; // Replace with your output file
+const entryFile = "src/server.ts"; // Replace with your entry file
+const outfile = "dist/src/server.js"; // Replace with your output file
 const platform: esbuild.Platform = "node"; // Required for AWS Lambda
 const target = "node20"; // Match your Lambda runtime version
 

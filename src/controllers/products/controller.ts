@@ -1,5 +1,4 @@
 
-import * as schemas from "./schema";
 import { StatusCodes } from 'http-status-codes';
 import { v4 as uuid } from "uuid";
 import { CONSTANTS } from "../../constants";

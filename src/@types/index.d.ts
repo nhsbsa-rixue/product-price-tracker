@@ -9,6 +9,9 @@ declare global {
     users: any;
     products: any;
     watching: any;
+    contextPath: string;
+    session: any;
+    t: any;
   }
 
   interface EmailTemplate {
@@ -25,17 +28,25 @@ declare global {
     (req: Req, res: any, next: any): any;
   }
 
+  interface Page {
+    path: string;
+    heading?: string;
+    schema?: ValidationChain[];
+    Get: Controller;
+    Post: Controller;
+  }
+
   interface RestControllers {
-    Path: string;
+    path: string;
     Get?: Controller;
     List?: Controller;
     Post?: Controller;
     Put?: Controller;
     Delete?: Controller;
-    Schema?: ValidationChain[];
-    GetSchema?: ValidationChain[];
-    DeleteSchema?: ValidationChain[];
-    PutSchema?: ValidationChain[];
-    PostSchema?: ValidationChain[];
+    schema?: ValidationChain[];
+    getSchema?: ValidationChain[];
+    deleteSchema?: ValidationChain[];
+    putSchema?: ValidationChain[];
+    postSchema?: ValidationChain[];
   }
 } 

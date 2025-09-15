@@ -3,7 +3,7 @@ import { validator } from "../validator";
 import fs from "fs";
 import path from "path";
 import logger from "../logger";
-
+import { getRequestUri } from "../utils"
 
 const router = express.Router();
 
@@ -19,6 +19,8 @@ const derivePath = (filePath: string) => {
 };
 
 const scanningControllers = (baseFolder: string, router: express.Router) => {
+  
+  // Recursively scan the controllers directory
   for (const entry of fs.readdirSync(baseFolder, { withFileTypes: true })) {
     const subControllerFolder = path.join(baseFolder, entry.name);
 
@@ -34,7 +36,7 @@ const scanningControllers = (baseFolder: string, router: express.Router) => {
 
 
       if (typeof mod["Get"] === "function") {
-        const schema = mod["GetSchema"] || [];
+        const schema = mod["getSchema"] || [];
         router.get(`${path}/:id`, schema, validator, mod["Get"]);
       }
 
@@ -43,22 +45,22 @@ const scanningControllers = (baseFolder: string, router: express.Router) => {
       }
 
       if (typeof mod["Post"] === "function") {
-        const schema = mod["PostSchema"] || [];
+        const schema = mod["postSchema"] || [];
         router.post(path, schema, validator, mod["Post"]);
       }
 
       if (typeof mod["Put"] === "function") {
-        const schema = mod["PutSchema"] || [];
+        const schema = mod["putSchema"] || [];
         router.put(`${path}/:id`, schema, validator, mod["Put"]);
       }
 
       if (typeof mod["Delete"] === "function") {
-        const schema = mod["DeleteSchema"] || [];
+        const schema = mod["deleteSchema"] || [];
         router.delete(`${path}/:id`, schema, validator, mod["Delete"]);
       }
 
       if (typeof mod["Patch"] === "function") {
-        const schema = mod["PatchSchema"] || [];
+        const schema = mod["patchSchema"] || [];
         router.patch(`${path}/:id`, schema, validator, mod["Patch"]);
       }
 
@@ -67,13 +69,13 @@ const scanningControllers = (baseFolder: string, router: express.Router) => {
   }
 };
 
-export function setupAutoRoutes(app: express.Application) {
+const setupAutoRoutes = (app: express.Application) => {
 
   const controllerBaseFolder = path.join(__dirname, "..", "controllers");
 
   scanningControllers(controllerBaseFolder, router);
 
-  app.use(router);
+  app.use(getRequestUri("/api"), router);
 
   router.stack.forEach((layer: any) => {
   if (layer.route) {

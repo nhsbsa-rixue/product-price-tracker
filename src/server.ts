@@ -4,6 +4,7 @@ import logger from "./logger";
 import config from "./config";
 import { setupCronJobs } from "./cronJobs";
 
+
 logger.info("Starting application...");
 
 const { PORT, APP_NAME, CONTEXT_PATH } = config;

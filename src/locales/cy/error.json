@@ -1,0 +1,15 @@
+{   
+  "summaryTitle": "Mae problem yn bodoli",
+  "problemWithService": {
+    "title": "Ymddiheuriadau, mae problem gyda'r gwasanaeth",
+    "description": "Rhowch gynnig arall arni yn nes ymlaen."
+  },
+  "pageNotFound": {
+    "title": "Dywediadur heb ei ddarganfod",
+    "description": "Gwiriwch y URL neu rhowch gynnig arall arni yn nes ymlaen."
+  },
+  "noAccess": {
+    "title": "Dim mynediad",
+    "description": "Nid oes gennych fynediad at y dudalen hon"
+  }
+}
