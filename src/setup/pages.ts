@@ -19,6 +19,17 @@ const redirectPageTo = (req, res, next) => {
   next();
 };
 
+/**
+ * Middleware to redirect paths ending with a trailing slash (except root "/") to their non-slash version.
+ */
+const removeTrailingSlash = (req, res, next) => {
+  if (req.path.length > 1 && req.path.endsWith("/")) {
+    const newPath = req.path.slice(0, -1);
+    return res.redirect(301, newPath + (req.url.slice(req.path.length) || ""));
+  }
+  next();
+};
+
 
 /** 
  * Derives a base path from the file path.
@@ -85,6 +96,8 @@ const setupAutoPages = (app: express.Application) => {
   
 
   app.use(redirectPageTo);
+
+  app.use(removeTrailingSlash);
 
   app.use(router);
 

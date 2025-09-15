@@ -2,16 +2,32 @@ import fs from "fs";
 import express from "express";
 import nunjucks from "nunjucks";
 import config from "../config";
+import path from "path";
+
 import { getRequestUri } from "../utils";
 
 /**
- * Get all the subdirectories in the pages folder
+ * Get all the folders containing .njk templates in the pages folder
  */
-const getSubDirectories = (source: string) => {
-  return fs
-    .readdirSync(source, { withFileTypes: true })
-    .filter((dirent) => dirent.isDirectory())
-    .map((dirent) => source + "/" + dirent.name + "/template");
+const getPageFolders = () => {
+ const results: string[] = [];
+  const source = path.join(__dirname, "../../src/pages");
+
+  const scan = (dir: string) => {
+    fs.readdirSync(dir, { withFileTypes: true }).forEach((entry) => {
+      const fullPath = path.join(dir, entry.name);
+      if (entry.isDirectory()) {
+        scan(fullPath); // Recursively scan subdirectories
+      } else if (entry.isFile() && entry.name.endsWith(".njk")) {
+        results.push(dir); // Add the folder containing .njk file
+      }
+    });
+  };
+
+  scan(source);
+
+  // Remove duplicates
+  return Array.from(new Set(results));
 };
 
 /**
@@ -25,17 +41,15 @@ const getSubDirectories = (source: string) => {
  */
 const getTemplatePaths = () => {
   const templatePaths = [
-    "src/template",
-    "./node_modules/nhsuk-frontend/packages",
+    path.join(__dirname, "../../src/template"),
+    path.join(__dirname, "../../node_modules/nhsuk-frontend/packages"),
   ];
 
-  const subDirs = getSubDirectories("src/pages");
+  const subDirs = getPageFolders();
 
   return [...templatePaths, ...subDirs];
 };
 
-
-const setupTemplate = (app: App) => {
 
   /**
    * Static file paths
@@ -44,18 +58,19 @@ const setupTemplate = (app: App) => {
    * 2. nhsuk-frontend package
    */
   const publicPaths = [
-    "./public",
-    "./node_modules/nhsuk-frontend/dist",
+    path.join(__dirname, "../../public"),
+    path.join(__dirname, "../../node_modules/nhsuk-frontend/dist"),
+
   ];
 
+const setupTemplate = (app: App) => {
+  // Serve static files from the public directory
   publicPaths.forEach((publicPath) => {
     app.use(getRequestUri(), express.static(publicPath));
   });
 
   // Set the path to the page template and macros
-  const templatePaths = getTemplatePaths();
-
-  const env = nunjucks.configure(templatePaths, {
+  const env = nunjucks.configure(getTemplatePaths(), {
     autoescape: true,
     express: app,
   });
