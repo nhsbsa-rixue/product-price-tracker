@@ -19,16 +19,6 @@ const redirectPageTo = (req, res, next) => {
   next();
 };
 
-/**
- * Middleware to redirect paths ending with a trailing slash (except root "/") to their non-slash version.
- */
-const removeTrailingSlash = (req, res, next) => {
-  if (req.path.length > 1 && req.path.endsWith("/")) {
-    const newPath = req.path.slice(0, -1);
-    return res.redirect(301, newPath + (req.url.slice(req.path.length) || ""));
-  }
-  next();
-};
 
 
 /** 
@@ -87,8 +77,8 @@ const setupAutoPages = (app: express.Application) => {
   const router = express.Router();
 
 
-  const controllerBaseFolder = path.join(__dirname, "..", "pages");
-  scanningPages(controllerBaseFolder, router);
+  const pageBaseFolder = path.join(__dirname, "../pages");
+  scanningPages(pageBaseFolder, router);
 
   router.get(getRequestUri(),  (req, res) => {
       res.render("home", { pageList });
@@ -97,17 +87,10 @@ const setupAutoPages = (app: express.Application) => {
 
   app.use(redirectPageTo);
 
-  app.use(removeTrailingSlash);
 
   app.use(router);
 
-  router.stack.forEach((layer: any) => {
-  if (layer.route) {
-    const methods = Object.keys(layer.route.methods).join(", ").toUpperCase();
-    logger.debug(`${methods} ${layer.route.path}`);
-  }
-});
-
+  logger.info("Auto pages setup completed.");
 
 
 }

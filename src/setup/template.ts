@@ -10,8 +10,8 @@ import { getRequestUri } from "../utils";
  * Get all the folders containing .njk templates in the pages folder
  */
 const getPageFolders = () => {
- const results: string[] = [];
-  const source = path.join(__dirname, "../../src/pages");
+ const results = new Set<string>();
+  const source = path.join(__dirname, "../pages");
 
   const scan = (dir: string) => {
     fs.readdirSync(dir, { withFileTypes: true }).forEach((entry) => {
@@ -19,15 +19,17 @@ const getPageFolders = () => {
       if (entry.isDirectory()) {
         scan(fullPath); // Recursively scan subdirectories
       } else if (entry.isFile() && entry.name.endsWith(".njk")) {
-        results.push(dir); // Add the folder containing .njk file
+        results.add(dir); // Add the folder containing .njk file
       }
     });
   };
 
   scan(source);
 
+  console.log("Template folders found:", results);
+
   // Remove duplicates
-  return Array.from(new Set(results));
+  return Array.from(results);
 };
 
 /**
@@ -45,9 +47,9 @@ const getTemplatePaths = () => {
     path.join(__dirname, "../../node_modules/nhsuk-frontend/packages"),
   ];
 
-  const subDirs = getPageFolders();
+  const pageDirs = getPageFolders();
 
-  return [...templatePaths, ...subDirs];
+  return [...templatePaths, ...pageDirs];
 };
 
 
@@ -76,7 +78,7 @@ const setupTemplate = (app: App) => {
   });
 
   // Add filters 
-  env.addFilter("getRequestUri", getRequestUri);
+  env.addGlobal("getRequestUri", getRequestUri);
  
   // Add all globals from config
   env.addGlobal("APP_NAME", config.APP_NAME);

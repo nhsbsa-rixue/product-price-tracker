@@ -1,14 +1,14 @@
-{% extends "../../../template/page.njk" %}
+{% extends "../../template/page.njk" %}
 
 {% block heading %}
   {{ backLink({
-    href: CONTEXT_PATH,
+    href: getRequestUri(),
     text: t("common.back")
   }) }}
 {% endblock %}
 
 {% block content %}
-  <form action="{{CONTEXT_PATH +"dob"}}" method="post">
+  <form action="{{getRequestUri('dob')}}" method="post">
     {% if error %}
       {{ errorSummary({
         titleText: t("error.summaryTitle"),
