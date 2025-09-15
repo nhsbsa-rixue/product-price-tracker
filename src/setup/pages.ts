@@ -6,7 +6,7 @@ import logger from "../logger";
 import { getRequestUri } from "../utils"
 
 
-let pageList = [{}];
+let pageList: { path: string; heading: string }[] = [];
 
 
 /**
@@ -54,14 +54,16 @@ const scanningPages = (baseFolder: string, router: express.Router) => {
       });
 
 
-      if (typeof mod["get"] === "function") {
+      if (typeof mod["Get"] === "function") {
         const schema = mod["getSchema"] || [];
-        router.get(path, schema, validator, mod["get"]);
+
+        console.log("Registering page:", getRequestUri(path));
+        router.get(getRequestUri(path), schema, validator, mod["Get"]);
       }
 
-      if (typeof mod["post"] === "function") {
+      if (typeof mod["Post"] === "function") {
         const schema = mod["postSchema"] || [];
-        router.post(path, schema, validator, mod["post"]);
+        router.post(getRequestUri(path), schema, validator, mod["Post"]);
       }
 
 
@@ -77,14 +79,14 @@ const setupAutoPages = (app: express.Application) => {
   const controllerBaseFolder = path.join(__dirname, "..", "pages");
   scanningPages(controllerBaseFolder, router);
 
-  router.get("/", (req, res) => {
+  router.get(getRequestUri(),  (req, res) => {
       res.render("home", { pageList });
   });
   
 
   app.use(redirectPageTo);
 
-  app.use(getRequestUri(), router);
+  app.use(router);
 
   router.stack.forEach((layer: any) => {
   if (layer.route) {

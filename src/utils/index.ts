@@ -7,10 +7,9 @@ import config from "../config";
  * @param path 
  * @returns path segment with contextPath prepended
  */
-export const getRequestUri = (path = "") => {
+export const getRequestUri = (path = "/") => {
   return [config.CONTEXT_PATH, path].join("/")
   // Normalize slashes and ensure leading slash
   .replace(/\/+/g, "/")
-  // Ensure root path is just "/"
-  .replace(/\/$/, "/");
+  .replace(/\/$/, "") || "/";
 };

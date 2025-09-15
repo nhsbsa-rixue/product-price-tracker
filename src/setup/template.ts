@@ -34,13 +34,6 @@ const getTemplatePaths = () => {
   return [...templatePaths, ...subDirs];
 };
 
-/**
- * Middleware to add the context path to the request object
- */
-const contextPath = (req, res, next) => {
-  req.CONTEXT_PATH = config.CONTEXT_PATH;
-  next();
-} 
 
 const setupTemplate = (app: App) => {
 
@@ -66,11 +59,13 @@ const setupTemplate = (app: App) => {
     autoescape: true,
     express: app,
   });
+
+  // Add filters 
+  env.addFilter("getRequestUri", getRequestUri);
  
   // Add all globals from config
   env.addGlobal("APP_NAME", config.APP_NAME);
   env.addGlobal("CONTEXT_PATH", config.CONTEXT_PATH);
-  app.use(contextPath);
 
   // Set the view engine to Nunjucks
   app.set("view engine", "njk");

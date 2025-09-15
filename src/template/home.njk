@@ -7,7 +7,7 @@
     {% for page in pageList %}
       <li class="nhsuk-grid-column-one-third nhsuk-card-group__item ">
         {{ card({
-          "href": CONTEXT_PATH + page.path,
+          "href": page.path | getRequestUri,
           "heading": page.heading,
           "headingClasses": "nhsuk-heading-xs"
         }) }}
