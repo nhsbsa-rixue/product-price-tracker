@@ -1,5 +1,5 @@
 import config from "../config";
-import RedisStore from "connect-redis";
+import { RedisStore } from "connect-redis"
 import session, { MemoryStore } from "express-session";
 import { createClient } from "redis";
 import logger from "../logger";
@@ -22,6 +22,8 @@ const sessionToLocal = (req, res, next) => {
  * @param {*} app
  */
 const setupSession = (app: App) => {
+
+  // Default to in-memory store
   const sessionConfig = {
     secret: config.SESSION_SECRET,
     resave: false,
@@ -29,6 +31,7 @@ const setupSession = (app: App) => {
     store : new MemoryStore(),
   };
 
+  // If REDIS_URL is provided, use Redis for session storage
   if (config.REDIS_URL) {
     const redisClient = createClient({
       url: config.REDIS_URL,

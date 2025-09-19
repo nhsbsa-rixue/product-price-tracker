@@ -44,7 +44,10 @@ const getPageFolders = () => {
 const getTemplatePaths = () => {
   const templatePaths = [
     path.join(__dirname, "../../src/template"),
-    path.join(__dirname, "../../node_modules/nhsuk-frontend/packages"),
+    path.join(__dirname, "../../node_modules/nhsuk-frontend/dist/"),
+    path.join(__dirname, "../../node_modules/nhsuk-frontend/dist/nhsuk"),
+    path.join(__dirname, "../../node_modules/nhsuk-frontend/dist/nhsuk/components"),
+    path.join(__dirname, "../../node_modules/nhsuk-frontend/dist/nhsuk/macros"),
   ];
 
   const pageDirs = getPageFolders();
@@ -61,7 +64,7 @@ const getTemplatePaths = () => {
    */
   const publicPaths = [
     path.join(__dirname, "../../public"),
-    path.join(__dirname, "../../node_modules/nhsuk-frontend/dist"),
+    path.join(__dirname, "../../node_modules/nhsuk-frontend/dist/nhsuk"),
 
   ];
 
