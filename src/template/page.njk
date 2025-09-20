@@ -63,12 +63,14 @@
   </div>
 {% endblock %}
 {% block footer %}
-  {{ footer({
-    "links": [
+{{ footer({
+  meta: {
+    items: [
       {
-        "URL": "https://github.com/nhsbsa-rixue/express-ui-boilerplate",
-        "label": "GitHub"
+          "href": "https://github.com/nhsbsa-rixue/express-ui-boilerplate",
+          "text": "GitHub"
       }
     ]
-  }) }}
+  }
+}) }}
 {% endblock %}

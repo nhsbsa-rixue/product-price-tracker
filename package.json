@@ -13,7 +13,7 @@
     "audit": "npm audit --omit=dev",
     "eslint": "eslint .",
     "auto-fix": "eslint --fix .",
-    "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
+    "dev": "ts-node-dev --respawn --transpile-only --watch src src/server.ts",
     "deploy-docker": "docker build -t ui-scaffold .",
     "postdeploy-docker": "docker run -p 8001:8001 ui-scaffold"
   },
