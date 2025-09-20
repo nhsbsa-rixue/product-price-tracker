@@ -71,7 +71,7 @@ const getTemplatePaths = () => {
 const setupTemplate = (app: App) => {
   // Serve static files from the public directory
   publicPaths.forEach((publicPath) => {
-    app.use(getRequestUri(), express.static(publicPath));
+    app.use(express.static(publicPath));
   });
 
   // Set the path to the page template and macros
