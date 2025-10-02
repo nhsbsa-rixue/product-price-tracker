@@ -4,7 +4,7 @@ import setupDBClient from "./db-client";
 import setupErrorHandlers from "./error-handler";
 
 import setupSecurity from "./security";
-import setupTemplat from "./template";
+import setupTemplate from "./template";
 import setupSession from "./session";
 import setupLanguage from "./language";
 
@@ -25,7 +25,7 @@ export default (app: App) => {
   setupSession(app);
   setupDBClient(app);
 
-  setupTemplat(app);
+  setupTemplate(app);
   setupLanguage(app);
 
   setupController(app);

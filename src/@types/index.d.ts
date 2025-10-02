@@ -14,6 +14,11 @@ declare global {
     t: any;
   }
 
+  interface Res extends Response {
+    render: any;
+    redirectPageTo: any;
+  }
+
   interface EmailTemplate {
     to: string;
     subject: string;

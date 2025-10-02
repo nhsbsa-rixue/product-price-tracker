@@ -10,7 +10,7 @@ import { getRequestUri } from "../utils";
  * Get all the folders containing .njk templates in the pages folder
  */
 const getPageFolders = () => {
- const results = new Set<string>();
+  const results = new Set<string>();
   const source = path.join(__dirname, "../pages");
 
   const scan = (dir: string) => {
@@ -53,17 +53,17 @@ const getTemplatePaths = () => {
 };
 
 
-  /**
-   * Static file paths
-   * Contains:
-   * 1. public folder
-   * 2. nhsuk-frontend package
-   */
-  const publicPaths = [
-    path.join(__dirname, "../../public"),
-    path.join(__dirname, "../../node_modules/nhsuk-frontend/dist"),
+/**
+ * Static file paths
+ * Contains:
+ * 1. public folder
+ * 2. nhsuk-frontend package
+ */
+const publicPaths = [
+  path.join(__dirname, "../../public"),
+  path.join(__dirname, "../../node_modules/nhsuk-frontend/dist"),
 
-  ];
+];
 
 const setupTemplate = (app: App) => {
   // Serve static files from the public directory
@@ -79,7 +79,7 @@ const setupTemplate = (app: App) => {
 
   // Add filters 
   env.addGlobal("getRequestUri", getRequestUri);
- 
+
   // Add all globals from config
   env.addGlobal("APP_NAME", config.APP_NAME);
   env.addGlobal("CONTEXT_PATH", config.CONTEXT_PATH);
